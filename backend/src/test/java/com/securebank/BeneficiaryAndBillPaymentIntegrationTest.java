@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -54,14 +54,6 @@ public class BeneficiaryAndBillPaymentIntegrationTest {
     @Test
     @DisplayName("Beneficiary Flow: Add Beneficiary & Check 30-min Cooling Off Period")
     void testBeneficiaryFlow() throws Exception {
-        String addBeneficiaryJson = """
-                {
-                    "beneficiaryAccountNumber": "100194738508",
-                    "beneficiaryIfscCode": "SECURE000001",
-                    "nickname": "Ananya Tech"
-                }
-                """;
-
         // May already exist from sample data or previous run, so perform GET or POST
         MvcResult listResult = mockMvc.perform(get("/api/beneficiaries")
                         .header("Authorization", "Bearer " + token))
@@ -99,8 +91,8 @@ public class BeneficiaryAndBillPaymentIntegrationTest {
                 .andExpect(jsonPath("$.data.amount").value(450.00));
 
         Account after = accountRepository.findByAccountNumber("100100000001").orElseThrow();
-        assertTrue(before.getBalance().compareTo(after.getBalance()) > 0,
-                "Balance must decrease after paying bill");
+        assertEquals(0, balanceBefore.subtract(billAmount).compareTo(after.getBalance()),
+                "Balance must decrease by bill amount after paying bill");
     }
 
     @Test

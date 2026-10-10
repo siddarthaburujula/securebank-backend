@@ -14,7 +14,6 @@ import com.securebank.ledger.entity.LedgerEntry;
 import com.securebank.ledger.repository.LedgerRepository;
 import com.securebank.notification.repository.NotificationRepository;
 import com.securebank.transaction.entity.Transaction;
-import com.securebank.transaction.entity.TransactionStatus;
 import com.securebank.transaction.repository.TransactionRepository;
 import com.securebank.user.entity.User;
 import com.securebank.user.repository.UserRepository;

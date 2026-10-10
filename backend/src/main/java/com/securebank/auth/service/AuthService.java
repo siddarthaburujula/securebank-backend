@@ -1,7 +1,6 @@
 package com.securebank.auth.service;
 
 import com.securebank.account.entity.Account;
-import com.securebank.account.entity.AccountStatus;
 import com.securebank.account.repository.AccountRepository;
 import com.securebank.account.service.AccountNumberGenerator;
 import com.securebank.audit.entity.AuditLog;

@@ -81,7 +81,9 @@ public class DormantService {
         if (oldOtp != null && !oldOtp.isBlank()) {
             boolean validOldOtp = otpService.verifyOtp(customer.getEmail(), "DORMANT_REKYC_OLD", oldOtp)
                     || "123456".equals(oldOtp.trim());
-            // Log verification state
+            if (!validOldOtp) {
+                throw new BadRequestException("Invalid or expired OTP for registered contact details.");
+            }
         }
 
         // ─── STEP 2: Handle New Details if requested ───
